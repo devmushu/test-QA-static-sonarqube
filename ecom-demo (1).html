@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>E-Com Express - Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; }
+    header { background-color: #038280; color: white; padding: 1em; text-align: center; }
+    main { padding: 2em; }
+    .product { background: white; padding: 1em; margin-bottom: 1em; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .product h3 { margin-top: 0; }
+    .button { background-color: #038280; color: white; padding: 0.5em 1em; border: none; border-radius: 5px; cursor: pointer; }
+    .button:hover { background-color: #025f5d; }
+    .form-group { margin-bottom: 1em; }
+    .form-group label { display: block; margin-bottom: 0.5em; }
+    .form-group input { width: 100%; padding: 0.5em; border: 1px solid #ccc; border-radius: 5px; }
+    #cart { margin-top: 2em; background: white; padding: 1em; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>E-Com Express - Demo</h1>
+    <p>App demo para pruebas funcionales</p>
+  </header>
+  <main>
+    <section id="login">
+      <h2>Iniciar Sesión</h2>
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" placeholder="usuario@demo.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="123456">
+      </div>
+      <button class="button" onclick="login()">Entrar</button>
+      <p id="login-msg"></p>
+    </section>
+
+    <section id="productos" style="display:none">
+      <h2>Productos disponibles</h2>
+      <div class="product">
+        <h3>Audífonos Bluetooth</h3>
+        <p>Precio: $15.000</p>
+        <button class="button" onclick="agregarAlCarrito('Audífonos Bluetooth')">Agregar al carrito</button>
+      </div>
+      <div class="product">
+        <h3>Mouse Gamer</h3>
+        <p>Precio: $10.000</p>
+        <button class="button" onclick="agregarAlCarrito('Mouse Gamer')">Agregar al carrito</button>
+      </div>
+      <div class="product">
+        <h3>Teclado Mecánico</h3>
+        <p>Precio: $25.000</p>
+        <button class="button" onclick="agregarAlCarrito('Teclado Mecánico')">Agregar al carrito</button>
+      </div>
+
+      <div id="cart">
+        <h3>Carrito de compras</h3>
+        <ul id="cart-items"></ul>
+        <button class="button" onclick="finalizarCompra()">Finalizar pedido</button>
+        <p id="compra-msg"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const usuarioDemo = {
+      email: "usuario@demo.com",
+      password: "123456"
+    };
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const mensaje = document.getElementById("login-msg");
+
+      if (email === usuarioDemo.email && password === usuarioDemo.password) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("productos").style.display = "block";
+      } else {
+        mensaje.style.color = 'red';
+        mensaje.innerText = "Credenciales incorrectas.";
+      }
+    }
+
+    const carrito = [];
+
+    function agregarAlCarrito(producto) {
+      carrito.push(producto);
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const cartList = document.getElementById("cart-items");
+      cartList.innerHTML = "";
+      carrito.forEach(item => {
+        const li = document.createElement("li");
+        li.innerText = item;
+        cartList.appendChild(li);
+      });
+    }
+
+    function finalizarCompra() {
+      if (carrito.length === 0) {
+        document.getElementById("compra-msg").innerText = "El carrito está vacío.";
+        return;
+      }
+      document.getElementById("compra-msg").style.color = 'green';
+      document.getElementById("compra-msg").innerText = "¡Compra realizada con éxito!";
+    }
+  </script>
+</body>
+</html>
